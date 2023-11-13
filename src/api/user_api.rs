@@ -5,7 +5,7 @@ use crate::models::jwt_model::JWT;
 use crate::models::status_model::CustomStatus;
 
 #[get("/user/<path>")]
-pub fn get_user(db: &State<MongoRepo>, path: String) -> Result<Json<User>, Status> {
+pub fn get_user(db: &State<MongoRepo>, path: String, _key: JWT) -> Result<Json<User>, Status> {
     let id = path;
     if id.is_empty() {
         return Err(Status::BadRequest);
@@ -22,6 +22,7 @@ pub fn update_user(
     db: &State<MongoRepo>,
     path: String,
     new_user: Json<User>,
+    _key: JWT
 ) -> Result<Json<User>, Status> {
     let id = path;
     if id.is_empty() {
@@ -51,7 +52,7 @@ pub fn update_user(
 }
 
 #[delete("/user/<path>")]
-pub fn delete_user(db: &State<MongoRepo>, path: String) -> Result<Json<&str>, Status> {
+pub fn delete_user(db: &State<MongoRepo>, path: String, _key: JWT) -> Result<Json<&str>, Status> {
     let id = path;
     if id.is_empty() {
         return Err(Status::BadRequest);

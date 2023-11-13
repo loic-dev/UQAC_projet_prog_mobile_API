@@ -2,3 +2,4 @@
 API RUST  
 Add MONGOURI, JWT_SECRET to .env 
 MONGOURI=mongodb+srv://admin:admin@cluster0.mc97n1v.mongodb.net/?retryWrites=true&w=majority
+All secured routes are "/api/<route>"
