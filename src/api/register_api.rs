@@ -43,7 +43,8 @@ pub fn create_user(
     let hash_pass = hash(&*new_user.password).unwrap();
     let data = User {
         id: None,
-        name: new_user.name.to_owned(),
+        firstname: new_user.firstname.to_owned(),
+        lastname: new_user.lastname.to_owned(),
         email: new_user.email.to_owned(),
         password: hash_pass.to_owned(),
     };

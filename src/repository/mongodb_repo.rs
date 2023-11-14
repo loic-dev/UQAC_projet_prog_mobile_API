@@ -35,7 +35,8 @@ impl MongoRepo {
     pub fn create_user(&self, new_user: User) -> Result<InsertOneResult, Error> {
         let new_doc = User {
             id: None,
-            name: new_user.name,
+            firstname: new_user.firstname,
+            lastname: new_user.lastname,
             email: new_user.email,
             password: new_user.password,
         };
@@ -81,7 +82,8 @@ impl MongoRepo {
             "$set":
                 {
                     "id": new_user.id,
-                    "name": new_user.name,
+                    "firstname": new_user.firstname,
+                    "lastname": new_user.lastname,
                     "email": new_user.email,
                     "password": new_user.password,
                 },

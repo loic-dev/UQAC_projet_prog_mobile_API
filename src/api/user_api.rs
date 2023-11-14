@@ -30,7 +30,8 @@ pub fn update_user(
     };
     let data = User {
         id: Some(ObjectId::parse_str(&id).unwrap()),
-        name: new_user.name.to_owned(),
+        firstname: new_user.firstname.to_owned(),
+        lastname: new_user.lastname.to_owned(),
         email: new_user.email.to_owned(),
         password: new_user.password.to_owned(),
     };
