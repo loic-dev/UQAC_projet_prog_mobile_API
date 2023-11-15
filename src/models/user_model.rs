@@ -10,7 +10,6 @@ pub struct User {
     pub email: String,
     pub password: String,
 }
-
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LoginRequest {
     pub email: String,
