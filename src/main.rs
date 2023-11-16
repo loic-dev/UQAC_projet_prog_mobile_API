@@ -25,6 +25,6 @@ fn rocket() -> _ {
         .mount("/api", routes![delete_user])
         .mount("/" ,routes![login_user])
         .mount("/", routes![auth])
-        .mount("/", routes![lookup])
+        .mount("/api", routes![lookup])
         .register("/api", catchers![jwt_unauthorized])
 }

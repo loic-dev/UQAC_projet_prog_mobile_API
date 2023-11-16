@@ -14,7 +14,7 @@ pub fn create_jwt(id: Option<ObjectId>) -> Result<String, Json<CustomStatus>> {
     let id_int = i32::from_be_bytes([bytes[8], bytes[9], bytes[10], bytes[11]]);
 
     let expiration= Utc::now()
-        .checked_add_signed(chrono::Duration::seconds(60))
+        .checked_add_signed(chrono::Duration::hours(24))
         .expect("Invalid timestamp")
         .timestamp();
 
