@@ -14,6 +14,6 @@ pub fn is_valid_password(password: &str) -> bool {
 pub fn email_exist(db: &State<MongoRepo>, email: &str) -> bool {
     let mut result = false;
     let user = db.get_user_by_email(email);
-    if user.is_ok() {result = true}
+    if user.is_some() {result = true}
     result
 }

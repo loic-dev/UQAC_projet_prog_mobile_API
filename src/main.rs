@@ -8,7 +8,7 @@ extern crate rocket;
 
 use dotenv::dotenv;
 use repository::mongodb_repo::MongoRepo;
-use crate::api::user_api::{get_user, update_user, delete_user, auth, jwt_unauthorized};
+use crate::api::user_api::{get_user, delete_user, auth, jwt_unauthorized};
 use crate::api::login_api::login_user;
 use crate::api::lookup_api::lookup;
 use crate::api::register_api::create_user;
@@ -21,7 +21,6 @@ fn rocket() -> _ {
         .manage(db)
         .mount("/", routes![create_user])
         .mount("/api", routes![get_user])
-        .mount("/api", routes![update_user])
         .mount("/api", routes![delete_user])
         .mount("/" ,routes![login_user])
         .mount("/", routes![auth])

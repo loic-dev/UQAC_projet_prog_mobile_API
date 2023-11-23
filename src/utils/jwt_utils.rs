@@ -2,12 +2,13 @@ use std::env;
 use chrono::Utc;
 use jsonwebtoken::{Algorithm, decode, DecodingKey, encode, EncodingKey, Header, Validation};
 use mongodb::bson::oid::ObjectId;
-use rocket::serde::json::Json;
 use crate::models::jwt_model::Claims;
-use crate::models::status_model::CustomStatus;
 use jsonwebtoken::errors::ErrorKind;
 
-pub fn create_jwt(id: Option<ObjectId>) -> Result<String, Json<CustomStatus>> {
+pub fn create_jwt(id: Option<ObjectId>) -> Result<String, String> {
+    if id.is_none() {
+        return Err("No id".to_string())
+    }
     let secret = env::var("JWT_SECRET").expect("JWT_SECRET must be set");
 
     let bytes = id.unwrap().bytes();
@@ -25,14 +26,15 @@ pub fn create_jwt(id: Option<ObjectId>) -> Result<String, Json<CustomStatus>> {
 
     let header = Header::new(Algorithm::HS512);
 
-    let jwt = encode(&header, &claims, &EncodingKey::from_secret(secret.as_bytes()));
-    let str_jwt = match jwt {
-        Ok(token) => token,
+    return match encode(&header, &claims, &EncodingKey::from_secret(secret.as_bytes())) {
+        Ok(token) => Ok(token),
         Err(err) => {
-            format!("Error: {:?}", err)
+            println!("Error: {:?}", err);
+            Err("Internal Server Error while encoding token".to_string())
         }
-    };
-    Ok(str_jwt)
+    }
+
+
 }
 
 pub fn decode_jwt(token: String) -> Result<Claims, ErrorKind> {
