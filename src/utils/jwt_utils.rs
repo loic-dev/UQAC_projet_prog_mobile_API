@@ -11,16 +11,13 @@ pub fn create_jwt(id: Option<ObjectId>) -> Result<String, String> {
     }
     let secret = env::var("JWT_SECRET").expect("JWT_SECRET must be set");
 
-    let bytes = id.unwrap().bytes();
-    let id_int = i32::from_be_bytes([bytes[8], bytes[9], bytes[10], bytes[11]]);
-
     let expiration= Utc::now()
         .checked_add_signed(chrono::Duration::hours(24))
         .expect("Invalid timestamp")
         .timestamp();
 
     let claims = Claims {
-        subject_id: id_int,
+        subject_id: id.unwrap().to_string(),
         exp: expiration as usize,
     };
 

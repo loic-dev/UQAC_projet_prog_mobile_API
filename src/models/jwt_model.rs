@@ -3,7 +3,7 @@ use rocket::serde::{Serialize, Deserialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
-    pub subject_id: i32,
+    pub subject_id: String,
     pub(crate) exp: usize,
 }
 
