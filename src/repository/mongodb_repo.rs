@@ -70,7 +70,6 @@ impl MongoRepo {
         return user_detail;
     }
 
-
     pub fn delete_user(&self, id: &String) -> Result<DeleteResult, Error> {
         let obj_id = ObjectId::parse_str(id).unwrap();
         let filter = doc! {"_id": obj_id};
@@ -117,7 +116,7 @@ impl MongoRepo {
         let new_doc = doc! {
             "$set":
                 {
-                    "id": new_list.id,
+                    "_id": new_list.id,
                     "title": new_list.title,
                     "user": new_list.user,
                     "created": new_list.created,
@@ -131,5 +130,38 @@ impl MongoRepo {
             .ok()
             .expect("Error updating list");
         Ok(updated_doc)
+    }
+
+    pub fn get_lists(&self, id: &String) -> Result<Vec<ShoppingList>, Error> {
+        let filter = doc! {"user": id};
+        let cursors = self
+            .col_list
+            .find(filter, None)
+            .ok()
+            .expect("Error getting shopping lists for user");
+        let lists = cursors.map(|doc| doc.unwrap()).collect();
+        Ok(lists)
+    }
+
+    pub fn get_list_for_user(&self, id: &String, user_id: &String) -> Option<ShoppingList> {
+        let obj_id = ObjectId::parse_str(id).unwrap();
+        let filter = doc! {"_id": obj_id, "user": user_id};
+        let list_detail = self
+            .col_list
+            .find_one(filter, None)
+            .ok()
+            .expect("Error getting shopping list for user");
+        return list_detail
+    }
+
+    pub fn delete_list(&self, id: &String) -> Result<DeleteResult, Error> {
+        let obj_id = ObjectId::parse_str(id).unwrap();
+        let filter = doc! {"_id": obj_id};
+        let list_detail = self
+            .col_list
+            .delete_one(filter, None)
+            .ok()
+            .expect("Error deleting list");
+        Ok(list_detail)
     }
 }

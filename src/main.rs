@@ -10,9 +10,9 @@ use dotenv::dotenv;
 use repository::mongodb_repo::MongoRepo;
 use crate::api::user_api::{get_user, delete_user, auth, jwt_unauthorized};
 use crate::api::login_api::login_user;
-use crate::api::lookup_api::lookup;
+use crate::api::lookup_api::{lookup, search};
 use crate::api::register_api::create_user;
-use crate::api::shopping_api::{create_list, get_list, update_list};
+use crate::api::shopping_api::{create_list, get_list, get_lists, update_list, delete_list};
 
 #[launch]
 fn rocket() -> _ {
@@ -28,6 +28,9 @@ fn rocket() -> _ {
         .mount("/api", routes![create_list])
         .mount("/api", routes![get_list])
         .mount("/api", routes![update_list])
+        .mount("/api", routes![get_lists])
+        .mount("/api", routes![delete_list])
         .mount("/api", routes![lookup])
+        .mount("/api", routes![search])
         .register("/api", catchers![jwt_unauthorized])
 }

@@ -132,3 +132,54 @@ pub fn update_list(
             }))
     }
 }
+
+#[get("/lists")]
+pub fn get_lists(db: &State<MongoRepo>,
+                 key: JWT
+) -> Result<Json<SuccessResponse<Vec<ShoppingList>>>, Json<FailureResponse>> {
+    let user_id = key.claims.subject_id;
+    let lists = db.get_lists(&user_id);
+    match lists {
+        Ok(lists) => Ok(Json::from(SuccessResponse {
+            code: Status::Accepted,
+            message: lists
+        })),
+        Err(_) => Err(Json::from(FailureResponse {
+            code: Status::InternalServerError,
+            error: "Internal Server Error".to_string()
+        }))
+
+    }
+}
+
+#[delete("/list/<path>")]
+pub fn delete_list(db: &State<MongoRepo>,
+                   path: String,
+                   key: JWT) -> Result<Json<SuccessResponse<String>>, Json<FailureResponse>> {
+    let id = path;
+    if id.is_empty() {
+        return Err(Json::from(FailureResponse {
+            code: Status::BadRequest,
+            error: "Id is null".to_string()
+        }))
+    };
+    if db.get_list_for_user(&id, &key.claims.subject_id).is_none() {
+        return Err(Json::from(FailureResponse {
+            code: Status::NotFound,
+            error: "Shopping list not found".to_string()
+        }))
+    }
+    let result = db.delete_list(&id);
+    return match result {
+        Ok(_) =>
+            Ok(Json::from(SuccessResponse {
+                code: Status::Accepted,
+                message: "List successfully deleted".to_string()
+            })),
+        Err(_) =>
+            Err(Json::from(FailureResponse {
+                code: Status::InternalServerError,
+                error: "Internal Server Error while deleting list".to_string()
+            })),
+    }
+}
