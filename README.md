@@ -6,6 +6,8 @@
 
 ### DEV:
 <p>Set env variables in .env file :</p>
-  + MONGOURI=<db_link>
-  + JWT_SECRET=<secret>
+<ul>
+  <li>MONGOURI=<db_link></li>
+  <li>JWT_SECRET=<secret></li>
+</ul>
 <p>All secured routes are "/api/<route>"</p>
