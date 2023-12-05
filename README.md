@@ -1,5 +1,13 @@
 # UQAC_projet_prog_mobile_API
-API RUST  
-Add MONGOURI, JWT_SECRET to .env 
-MONGOURI=mongodb+srv://admin:admin@cluster0.mc97n1v.mongodb.net/?retryWrites=true&w=majority
-All secured routes are "/api/<route>"
+## API RUST  
+
+### PROD:
+<p>API is available: https://uqac-projet-prog-mobile-api.fly.dev/api</p>
+
+### DEV:
+<p>Set env variables in .env file :</p>
+<ul>
+  <li>MONGOURI="db_link"</li>
+  <li>JWT_SECRET="secret"</li>
+</ul>
+<p>All secured routes are "/api/<route>"</p>
