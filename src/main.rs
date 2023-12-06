@@ -8,6 +8,7 @@ extern crate rocket;
 
 use dotenv::dotenv;
 use repository::mongodb_repo::MongoRepo;
+use crate::api::firebase_api::upload_list;
 use crate::api::user_api::{get_user, delete_user, auth, jwt_unauthorized};
 use crate::api::login_api::login_user;
 use crate::api::lookup_api::{lookup, search};
@@ -32,5 +33,6 @@ fn rocket() -> _ {
         .mount("/api", routes![delete_list])
         .mount("/api", routes![lookup])
         .mount("/api", routes![search])
+        .mount("/api", routes![upload_list])
         .register("/api", catchers![jwt_unauthorized])
 }

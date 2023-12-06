@@ -29,7 +29,6 @@ impl From<ListItem> for Bson {
             "name": item.name,
             "checked": item.checked,
         };
-
         Bson::Document(doc)
     }
 }
