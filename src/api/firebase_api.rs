@@ -7,13 +7,14 @@ use serde_json::Value;
 use crate::models::jwt_model::JWT;
 use crate::models::status_model::ReqwestStatus;
 
-#[post("/shop/upload", data = "<new_list>")]
+#[post("/shop/upload", data = "<invoice>")]
 pub async fn upload_list(
-    new_list: Json<Value>,
+    invoice: Json<Value>,
     key: JWT) -> Result<Json<ReqwestStatus>, String> {
     let storage_url = "https://firebasestorage.googleapis.com/v0/b/uqacprogmobilefirebase.appspot.com/o";
 
-    let json_bytes = new_list.into_inner().to_string().into_bytes();
+
+    let json_bytes = invoice.into_inner().to_string().into_bytes();
 
     let user_id = key.claims.subject_id;
     let file_id = Utc::now().timestamp();
